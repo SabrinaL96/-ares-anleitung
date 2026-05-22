@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🦁 Ares Coach – Tester-Anleitung</title>
+  <style>
+    :root {
+      --primary: #5b4fcf;
+      --primary-light: #ede9ff;
+      --accent: #f0a500;
+      --accent-light: #fff8e6;
+      --danger: #e74c3c;
+      --danger-light: #fdf0ef;
+      --success: #27ae60;
+      --success-light: #edfaf3;
+      --text: #1a1a2e;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --card-bg: #ffffff;
+      --bg: #f7f6ff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    /* HEADER */
+    .hero {
+      background: linear-gradient(135deg, #5b4fcf 0%, #8b5cf6 50%, #a78bfa 100%);
+      color: white;
+      text-align: center;
+      padding: 60px 20px 50px;
+    }
+    .hero-lion { font-size: 72px; line-height: 1; margin-bottom: 16px; }
+    .hero h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 8px; }
+    .hero p { font-size: 1.1rem; opacity: 0.9; max-width: 520px; margin: 0 auto; }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-bottom: 20px;
+    }
+
+    /* MAIN LAYOUT */
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+
+    /* SECTION */
+    section { margin-bottom: 40px; }
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title::after {
+      content: "";
+      flex: 1;
+      height: 2px;
+      background: var(--primary-light);
+      border-radius: 2px;
+    }
+
+    /* CARDS */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 24px;
+      margin-bottom: 14px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .card-title {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* CALLOUT BOXES */
+    .callout {
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+      border-left: 4px solid;
+    }
+    .callout-info { background: var(--primary-light); border-color: var(--primary); }
+    .callout-warn { background: var(--accent-light); border-color: var(--accent); }
+    .callout-danger { background: var(--danger-light); border-color: var(--danger); }
+    .callout-success { background: var(--success-light); border-color: var(--success); }
+    .callout strong { display: block; margin-bottom: 4px; }
+
+    /* STEPS */
+    .steps { counter-reset: step; }
+    .step {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+      align-items: flex-start;
+    }
+    .step-num {
+      counter-increment: step;
+      min-width: 36px;
+      height: 36px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-body { flex: 1; }
+    .step-body h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+    .step-body p, .step-body ul { color: #374151; font-size: 0.95rem; }
+    .step-body ul { padding-left: 20px; margin-top: 6px; }
+    .step-body ul li { margin-bottom: 4px; }
+
+    /* PHASE BADGE */
+    .phase {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin-bottom: 10px;
+    }
+    .phase-1 { background: #dbeafe; color: #1d4ed8; }
+    .phase-2 { background: #dcfce7; color: #15803d; }
+    .phase-3 { background: #fef9c3; color: #92400e; }
+
+    /* FLOW CHART */
+    .flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 8px 0 16px;
+    }
+    .flow-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+    .flow-item + .flow-item { margin-top: -1px; border-radius: 0; }
+    .flow-item:first-child { border-radius: 10px 10px 0 0; }
+    .flow-item:last-child { border-radius: 0 0 10px 10px; }
+    .flow-arrow {
+      text-align: center;
+      color: var(--primary);
+      font-size: 1.1rem;
+      line-height: 1;
+      padding: 4px 0;
+    }
+    .flow-icon { font-size: 1.2rem; min-width: 26px; text-align: center; }
+    .flow-sabrina {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* FEATURE GRID */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .feature-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 0.9rem;
+    }
+    .feature-icon { font-size: 1.6rem; margin-bottom: 8px; }
+    .feature-name { font-weight: 700; margin-bottom: 4px; }
+    .feature-desc { color: var(--muted); font-size: 0.85rem; }
+
+    /* FAQ */
+    details {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    summary {
+      padding: 16px 20px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      list-style: none;
+      gap: 10px;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "＋"; color: var(--primary); font-weight: 700; flex-shrink: 0; }
+    details[open] summary::after { content: "－"; }
+    .faq-body {
+      padding: 0 20px 18px;
+      font-size: 0.93rem;
+      color: #374151;
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+      margin-top: 0;
+    }
+    .faq-body p + p { margin-top: 8px; }
+
+    /* NAVIGATION TABLE */
+    .nav-table { width: 100%; border-collapse: collapse; font-size: 0.93rem; }
+    .nav-table th {
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .nav-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+    .nav-table tr:last-child td { border-bottom: none; }
+    .nav-table tr:hover td { background: #fafafa; }
+
+    /* ANDROID SECTION */
+    .android-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 500px) { .android-grid { grid-template-columns: 1fr; } }
+
+    .android-ok { border-left: 3px solid var(--success); background: var(--success-light); border-radius: 10px; padding: 14px; }
+    .android-warn { border-left: 3px solid var(--accent); background: var(--accent-light); border-radius: 10px; padding: 14px; }
+    .android-ok h5, .android-warn h5 { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .android-ok h5 { color: var(--success); }
+    .android-warn h5 { color: #b45309; }
+    .android-ok ul, .android-warn ul { padding-left: 18px; font-size: 0.88rem; }
+    .android-ok li, .android-warn li { margin-bottom: 4px; }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+    footer strong { color: var(--text); }
+
+    /* UTIL */
+    .tag {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .tag-orange {
+      background: var(--accent-light);
+      color: #92400e;
+    }
+    code {
+      background: #f3f4f6;
+      border-radius: 5px;
+      padding: 2px 6px;
+      font-size: 0.88em;
+      color: #374151;
+    }
+    .divider { height: 1px; background: var(--border); margin: 32px 0; }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 1.7rem; }
+      .hero-lion { font-size: 56px; }
+      .feature-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 380px) {
+      .feature-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🔒 Privater Beta-Test</div>
+  <div class="hero-lion">🦁</div>
+  <h1>Willkommen bei Ares Coach</h1>
+  <p>Dein persönlicher KI-Coach – diese Anleitung zeigt dir, wie du in wenigen Schritten startest.</p>
+</div>
+
+<div class="container">
+
+  <!-- INTRO -->
+  <section>
+    <div class="callout callout-info">
+      <strong>📱 Was ist Ares Coach?</strong>
+      Eine <strong>Web-App</strong> – kein App-Store-Download nötig! Du öffnest sie einfach im Browser deines Handys oder am PC. Ares ist ein KI-Coach (basierend auf GPT-4o), der dich kennt, begleitet und unterstützt – bei ADHS, Stress, Burnout oder einfach wenn du mehr Struktur im Alltag brauchst.
+    </div>
+    <div class="callout callout-warn">
+      <strong>⚠️ Wichtig: Die App ist nicht öffentlich zugänglich</strong>
+      Da die App noch im privaten Beta-Test ist, brauchst du <strong>zwei Zugänge</strong>, um sie zu nutzen: einen Streamlit-Account (für den Zugang zur App-Seite) und einen Ares-Coach-Account (für dein persönliches Profil). Ich erkläre unten alles Schritt für Schritt!
+    </div>
+  </section>
+
+  <!-- REGISTRATION FLOW OVERVIEW -->
+  <section>
+    <div class="section-title">🗺️ Der Überblick – dein Weg zur App</div>
+
+    <p style="margin-bottom:16px; color:var(--muted); font-size:0.93rem;">Einmalig beim ersten Mal – danach einfach <a href="https://arescoach.streamlit.app" target="_blank">arescoach.streamlit.app</a> öffnen und einloggen.</p>
+
+    <div class="flow">
+      <div class="flow-item">
+        <span class="flow-icon">✉️</span>
+        <span><strong>Schritt 1:</strong> Du bekommst von mir eine Einladungs-E-Mail von Streamlit</span>
+      </div>
+      <div class="flow-item">
+        <span class="flow-icon">👤</span>
+        <span><strong>Schritt 2:</strong> Streamlit-Account erstellen (einmalig, kostenlos)</span>
+      </div>
+      <div class="flow-item">
+        <span class="flow-icon">🔗</span>
+        <span><strong>Schritt 3:</strong> <a href="https://arescoach.streamlit.app" target="_blank">arescoach.streamlit.app</a> öffnen – Ares Coach begrüßt dich</span>
+      </div>
+      <div class="flow-item">
+        <span class="flow-icon">📝</span>
+        <span><strong>Schritt 4:</strong> In Ares Coach registrieren (mit Einladungscode)</span>
+      </div>
+      <div class="flow-item flow-sabrina">
+        <span class="flow-icon">✅</span>
+        <span><strong>Schritt 5:</strong> Sabrina schaltet dein Konto frei (dauert kurz)</span>
+      </div>
+      <div class="flow-item">
+        <span class="flow-icon">🦁</span>
+        <span><strong>Schritt 6:</strong> Einloggen &amp; loslegen!</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP BY STEP -->
+  <section>
+    <div class="section-title">🚀 Schritt-für-Schritt-Anleitung</div>
+
+    <!-- PHASE 1 -->
+    <div class="card">
+      <span class="phase phase-1">Phase 1 – Streamlit-Zugang</span>
+      <div class="steps">
+
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Einladungs-E-Mail von Streamlit annehmen</h4>
+            <p>Du bekommst eine E-Mail von <code>no-reply@streamlit.io</code> mit dem Betreff „You've been invited to view a Streamlit app".</p>
+            <ul>
+              <li>Öffne die E-Mail und klicke auf den <strong>„Accept Invite"</strong>-Button</li>
+              <li>Falls du die E-Mail nicht findest: Spam-Ordner checken!</li>
+              <li>Du wirst auf die Streamlit-Website weitergeleitet</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>Streamlit-Account erstellen</h4>
+            <p>Auf der Streamlit-Seite wirst du gebeten, ein Konto anzulegen (falls du noch keines hast).</p>
+            <ul>
+              <li>Wähle <strong>„Continue with Google"</strong> – das ist am einfachsten ✨</li>
+              <li>Alternativ: E-Mail-Adresse und Passwort vergeben</li>
+              <li>Bestätige ggf. deine E-Mail-Adresse</li>
+            </ul>
+            <div class="callout callout-info" style="margin-top:10px;">
+              💡 Der Streamlit-Account ist <strong>nur zum Öffnen der App</strong> nötig – deine Daten und dein Profil in Ares Coach sind davon getrennt.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="card">
+      <span class="phase phase-2">Phase 2 – Ares Coach Registrierung</span>
+      <div class="steps">
+
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>App öffnen</h4>
+            <p>Öffne diesen Link in deinem Browser:</p>
+            <div style="margin:10px 0; text-align:center;">
+              <a href="https://arescoach.streamlit.app" target="_blank" style="display:inline-block; background:#5b4fcf; color:white; padding:10px 22px; border-radius:10px; font-weight:700; text-decoration:none; font-size:1rem;">
+                🦁 arescoach.streamlit.app
+              </a>
+            </div>
+            <ul>
+              <li><strong>Android:</strong> Google Chrome <em>(empfohlen)</em></li>
+              <li><strong>iPhone:</strong> Safari oder Chrome</li>
+              <li><strong>PC:</strong> Chrome, Firefox oder Edge</li>
+            </ul>
+            <p style="margin-top:8px;">Du siehst jetzt den Ares-Coach-Login mit dem 🦁-Logo.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h4>In Ares Coach registrieren</h4>
+            <p>Tippe auf den Tab <strong>„✨ Registrieren"</strong> und fülle das Formular aus:</p>
+            <ul>
+              <li><strong>E-Mail</strong> – deine echte E-Mail-Adresse</li>
+              <li><strong>Benutzername</strong> – wie du in der App heißen möchtest</li>
+              <li><strong>Passwort</strong> – mindestens 6 Zeichen</li>
+              <li><strong>Einladungscode</strong> – den Code, den ich dir separat geschickt habe</li>
+            </ul>
+            <p style="margin-top:8px;">Klicke auf <strong>„Registrieren"</strong>.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <h4>E-Mail-Adresse bestätigen</h4>
+            <p>Du bekommst eine Bestätigungs-E-Mail von Ares Coach.</p>
+            <ul>
+              <li>Öffne die E-Mail und klicke auf den <strong>Bestätigungslink</strong></li>
+              <li>Schau auch im <strong>Spam-Ordner</strong> nach!</li>
+              <li>Nach dem Klick kommst du zurück zur App</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="card">
+      <span class="phase phase-3">Phase 3 – Freischaltung &amp; Start</span>
+      <div class="steps">
+
+        <div class="step">
+          <div class="step-num">6</div>
+          <div class="step-body">
+            <h4>Auf Freischaltung warten ⏳</h4>
+            <p>Nach der E-Mail-Bestätigung siehst du die Meldung: <em>„Dein Konto wartet auf Freigabe"</em>.</p>
+            <div class="callout callout-warn" style="margin-top:10px;">
+              Das ist <strong>kein Fehler</strong>! Die App ist ein privater Beta-Test – ich (Sabrina) muss dich manuell freischalten. Ich melde mich per Nachricht, sobald du loslegen kannst. Das dauert in der Regel nicht lange. 😊
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">7</div>
+          <div class="step-body">
+            <h4>Einloggen &amp; starten!</h4>
+            <p>Sobald du die Freigabe bekommst:</p>
+            <ul>
+              <li>Öffne <a href="https://arescoach.streamlit.app" target="_blank">arescoach.streamlit.app</a> erneut</li>
+              <li>Tab <strong>„🔑 Login"</strong> auswählen</li>
+              <li>E-Mail und Passwort eingeben</li>
+              <li>Auf <strong>„Einloggen"</strong> tippen</li>
+            </ul>
+            <p style="margin-top:8px;">Beim ersten Login startet das <strong>Onboarding</strong> – Ares lernt dich in ~10–15 Minuten kennen. Nimm dir kurz die Zeit dafür, es lohnt sich! 🦁</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ANDROID TIP -->
+  <section>
+    <div class="section-title">📱 App zum Startbildschirm hinzufügen (Android)</div>
+    <p style="margin-bottom:14px; color:var(--muted); font-size:0.93rem;">Damit du die App wie eine normale App nutzen kannst – kein App Store nötig!</p>
+    <div class="card">
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body"><p>Öffne <a href="https://arescoach.streamlit.app" target="_blank">arescoach.streamlit.app</a> in <strong>Google Chrome</strong></p></div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body"><p>Tippe auf die <strong>drei Punkte</strong> oben rechts <code>⋮</code></p></div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body"><p>Wähle <strong>„Zum Startbildschirm hinzufügen"</strong></p></div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body"><p>Bestätige mit <strong>„Hinzufügen"</strong> – fertig! ✅</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NAVIGATION -->
+  <section>
+    <div class="section-title">🗺️ Die Navigation</div>
+    <div class="callout callout-info">
+      <strong>📱 Auf dem Handy:</strong> Das Menü ist eingeklappt. Tippe auf das <strong>☰-Symbol oben links</strong>, um es zu öffnen.
+    </div>
+    <div class="card" style="padding:0; overflow:hidden;">
+      <table class="nav-table">
+        <thead>
+          <tr><th>Symbol</th><th>Bereich</th><th>Was du dort findest</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>💬</td><td><strong>Chat mit Ares</strong></td><td>Gespräche, tägliches Briefing, Unterstützung</td></tr>
+          <tr><td>📋</td><td><strong>Tagesplan</strong></td><td>Dein KI-generierter Plan für heute</td></tr>
+          <tr><td>📝</td><td><strong>To-Dos</strong></td><td>Aufgaben mit Bedürfnis- &amp; Energie-Filter</td></tr>
+          <tr><td>📅</td><td><strong>Kalender</strong></td><td>Wochenansicht, Termine erstellen &amp; abschließen</td></tr>
+          <tr><td>👤</td><td><strong>Mein Profil</strong></td><td>Einstellungen, Ziele, Daten-Export</td></tr>
+          <tr><td>🧰</td><td><strong>Werkzeugkoffer</strong></td><td>Alle Tools (siehe unten)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section>
+    <div class="section-title">🧰 Der Werkzeugkoffer</div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🩹</div>
+        <div class="feature-name">Erste-Hilfe</div>
+        <div class="feature-desc">Soforthilfe bei Krisen, Panik oder Überforderung. Auch ohne Login zugänglich.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🫙</div>
+        <div class="feature-name">Ressourcenglas</div>
+        <div class="feature-desc">Sammle Kraftquellen, Zitate, Bilder und Erinnerungen die dir gut tun.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📖</div>
+        <div class="feature-name">Erfolgstagebuch</div>
+        <div class="feature-desc">Halte Erfolge fest – egal wie klein. Ares hilft dir, sie zu würdigen.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💎</div>
+        <div class="feature-name">Belohnungen</div>
+        <div class="feature-desc">Sammle Edelsteine für Fortschritte. 14 Sorten, 25+ Schliffe – deine Vitrine.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <div class="feature-name">Mikro-Ziele</div>
+        <div class="feature-desc">Große Aufgaben in winzige Schritte zerlegen, die du wirklich schaffen kannst.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌡️</div>
+        <div class="feature-name">Stimmungs-Tracker</div>
+        <div class="feature-desc">Stimmung mehrmals täglich erfassen – Ares erkennt Muster und spricht dich an.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⏸️</div>
+        <div class="feature-name">Pausen &amp; Timer</div>
+        <div class="feature-desc">Strukturierte Fokus-Sessions mit Pomodoro oder 90-Min-Flow und Pausen-Vorschlägen.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔄</div>
+        <div class="feature-name">Rituale</div>
+        <div class="feature-desc">Tägliche oder wöchentliche Gewohnheiten aufbauen. Ares erinnert dich daran.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ANDROID SECTION -->
+  <section>
+    <div class="section-title">🤖 Android – Was du wissen solltest</div>
+    <div class="android-grid">
+      <div class="android-ok">
+        <h5>✅ Funktioniert gut</h5>
+        <ul>
+          <li>Chat mit Ares</li>
+          <li>To-Dos, Kalender, Rituale</li>
+          <li>Belohnungen &amp; Stimmungs-Tracker</li>
+          <li>Fokus-Timer</li>
+          <li>Zum Startbildschirm hinzufügen</li>
+        </ul>
+      </div>
+      <div class="android-warn">
+        <h5>⚠️ Kleine Besonderheiten</h5>
+        <ul>
+          <li>Menü: ☰ oben links tippen</li>
+          <li>PDF öffnet im Browser (3 Punkte → Herunterladen)</li>
+          <li>Erste Ladezeit: ca. 20–30 Sek.</li>
+          <li>Bei Cache-Leerung: neu einloggen</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <div class="section-title">❓ Häufige Fragen</div>
+
+    <details>
+      <summary>Die App lädt ewig – ist das normal?</summary>
+      <div class="faq-body">
+        <p>Ja, beim <strong>ersten Start</strong> braucht Streamlit manchmal 20–30 Sekunden. Das ist normal. Die App „schläft" wenn sie länger nicht genutzt wurde und muss erst aufwachen.</p>
+        <p>Wenn die App komplett einfriert: Seite neu laden (Wisch-nach-unten auf Android, F5 auf PC).</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Ich bin auf einmal ausgeloggt – meine Daten weg?</summary>
+      <div class="faq-body">
+        <p><strong>Keine Sorge</strong> – deine Daten sind sicher gespeichert! Das Ausloggen passiert manchmal, wenn Chrome den Browser-Cache leert.</p>
+        <p>Einfach <a href="https://arescoach.streamlit.app" target="_blank">arescoach.streamlit.app</a> erneut öffnen und mit E-Mail + Passwort wieder einloggen. Alles ist noch da. 😊</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Das Menü / die Seitenleiste ist verschwunden!</summary>
+      <div class="faq-body">
+        <p>Auf dem Handy ist das Menü automatisch eingeklappt. Tippe auf das <strong>☰-Symbol ganz oben links</strong> in der App, um es zu öffnen.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Streamlit fragt mich nach einem Login – welcher ist das?</summary>
+      <div class="faq-body">
+        <p>Das ist der <strong>Streamlit-Account</strong> (Phase 1 der Anleitung oben) – nicht dein Ares-Coach-Konto. Du hast zwei separate Zugänge:</p>
+        <ul style="margin-top:8px; padding-left:20px;">
+          <li><strong>Streamlit:</strong> für den Zugang zur App-Seite (einmalig, danach automatisch)</li>
+          <li><strong>Ares Coach:</strong> für dein persönliches Profil und deine Daten</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary>Ich warte auf Freischaltung – wie lange dauert das?</summary>
+      <div class="faq-body">
+        <p>Die Freischaltung mache ich manuell. Du bekommst von mir eine Nachricht, sobald es geklappt hat. In der Regel dauert das nicht lang – wenn du nichts hörst, schreib mir einfach kurz. 😊</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Ares antwortet nicht / es kommt ein KI-Fehler</summary>
+      <div class="faq-body">
+        <p>Das kann passieren, wenn die OpenAI-Server gerade überlastet sind. Kurz warten und die Nachricht nochmal senden. Wenn es länger anhält, schreib mir Bescheid.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Das PDF wird nicht heruntergeladen</summary>
+      <div class="faq-body">
+        <p>Auf Android öffnet Chrome PDFs direkt im Browser-Tab. Um es zu speichern:</p>
+        <ul style="margin-top:6px; padding-left:20px;">
+          <li>Tippe auf die <strong>drei Punkte</strong> oben rechts <code>⋮</code></li>
+          <li>Wähle <strong>„Herunterladen"</strong></li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PRIVACY -->
+  <section>
+    <div class="section-title">🔒 Datenschutz</div>
+    <div class="card">
+      <ul style="padding-left:20px; font-size:0.93rem; color:#374151;">
+        <li style="margin-bottom:8px;">Deine Daten liegen in einer <strong>europäischen Datenbank</strong> (Supabase, EU-Region)</li>
+        <li style="margin-bottom:8px;">Chat-Nachrichten werden zur Antwort-Generierung an OpenAI gesendet</li>
+        <li style="margin-bottom:8px;">Dies ist ein <strong>privater Beta-Test</strong> – deine Daten werden nicht weiterverkauft</li>
+        <li>Du kannst jederzeit alle Daten löschen lassen – schreib mir einfach</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FEEDBACK -->
+  <section>
+    <div class="section-title">💬 Feedback geben</div>
+    <div class="callout callout-success">
+      <strong>Dein Feedback ist super wertvoll!</strong>
+      Als Tester hilfst du mir, die App besser zu machen. Schreib mir gerne per Nachricht:
+      <ul style="margin-top:8px; padding-left:20px;">
+        <li>👍 Was gut funktioniert hat</li>
+        <li>🤔 Was dich verwirrt hat</li>
+        <li>🐛 Fehler oder Abstürze (mit Screenshot wenn möglich)</li>
+        <li>💡 Was du dir noch wünschst</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>Erstellt mit ❤️ von <strong>Sabrina</strong> · Ares Coach Beta · 2025</p>
+  <p style="margin-top:6px;">Bei Fragen einfach schreiben – ich helfe gerne!</p>
+</footer>
+
+</body>
+</html>
